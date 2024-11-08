@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密货币抄底减仓计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e2e6ea;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>加密货币抄底减仓计算器</h1>
+<form id="calcForm">
+    <label for="highPoint">高点：</label>
+    <input type="number" id="highPoint" placeholder="请输入高点" required>
+
+    <label for="retracement">回撤幅度 (%):</label>
+    <input type="number" id="retracement" placeholder="请输入回撤幅度" required>
+
+    <button type="submit">计算</button>
+</form>
+
+<div class="result" id="result" style="display: none;"></div>
+
+<script>
+    document.getElementById('calcForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        
+        const highPoint = parseFloat(document.getElementById('highPoint').value);
+        const retracement = parseFloat(document.getElementById('retracement').value) / 100;
+
+        const bottomPoint = highPoint * (1 - retracement);
+        const profitSpace = (highPoint - bottomPoint) * 0.3; // 假设空间0.3
+        const stopLossSpace = (highPoint - bottomPoint) * 0.3; // 假设损失空间30%
+        
+        document.getElementById('result').innerHTML = `
+            <h2>计算结果</h2>
+            <p>抄底点: ${bottomPoint.toFixed(2)}</p>
+            <p>盈利空间: ${profitSpace.toFixed(2)}</p>
+            <p>止损空间: ${stopLossSpace.toFixed(2)}</p>
+        `;
+        document.getElementById('result').style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
